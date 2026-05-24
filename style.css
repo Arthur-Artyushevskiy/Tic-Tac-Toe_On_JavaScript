@@ -28,6 +28,31 @@ h1 {
     color: #555;
 }
 
+#characterSelector{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.character{
+    cursor: pointer;
+    border-radius: 5px;
+    width: 80px;
+    height: 40px;
+    background-color: #007bff;
+    color: #f0f0f0;
+    font-size: 1.1rem;
+    font-display: flex;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.character:hover{
+
+    background-color: #0056b3;
+}
+
 .board {
     display: grid;
     grid-template-columns: repeat(3, 100px);
