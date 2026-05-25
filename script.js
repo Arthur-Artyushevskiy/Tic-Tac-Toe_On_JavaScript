@@ -3,6 +3,7 @@ const cells = document.querySelectorAll('.cell');
 const statusText = document.getElementById('status');
 const restartBtn = document.getElementById('restart');
 const characterBtns = document.querySelectorAll('.character');
+const gameModeBtns = document.querySelectorAll('.gameMode');
 
 let board = ['', '', '', '', '', '', '', '', ''];
 let currentPlayer = 'X';
@@ -10,6 +11,7 @@ let playerOneCharacter = 'X';
 let playerTwoCharacter = 'O';
 let gameActive = true;
 let customCharacterSelected = false;
+let gameMode = 'Human vs Human'; // Default game mode
 
 
 const winConditions = [
@@ -29,8 +31,23 @@ function initializeGame() {
     statusText.textContent = `Player ${currentPlayer}'s turn`;
     cells.forEach(cell => cell.addEventListener('click', handleCellClick));
     restartBtn.addEventListener('click', restartGame);
-    characterBtns.forEach(character => character.addEventListener('click', handleCharacterClick))
+    characterBtns.forEach(character => character.addEventListener('click', handleCharacterClick));
+    gameModeBtns.forEach(mode => mode.addEventListener('click', handleGameModeClick));
 }
+
+function handleGameModeClick(event) {
+    const selectedMode = event.target.getAttribute('data-index');
+
+    if (selectedMode === '0') {
+        gameMode = 'Human vs Human';
+    }
+    else if (selectedMode === '1') {
+        gameMode = 'Human vs AI';
+    }
+
+    restartGame();
+}
+
 
 function handleCharacterClick(event){
     const clickedCharacter = event.target;
@@ -64,15 +81,18 @@ function handleCellClick(event) {
     const clickedCell = event.target;
     const cellIndex = clickedCell.getAttribute('data-index');
 
+    if(gameMode === 'Human vs Human'){
 
-    if (board[cellIndex] !== '' || !gameActive) {
-        return;
+        if (board[cellIndex] !== '' || !gameActive) {
+            return;
+        }
+
+        updateCell(clickedCell, cellIndex);
+
+        checkWinner();
     }
 
-
-    updateCell(clickedCell, cellIndex);
-
-    checkWinner();
+    
 }
 
 
@@ -136,6 +156,7 @@ function restartGame() {
     playerOneCharacter = 'X';
     playerTwoCharacter = 'O';
     customCharacterSelected = false;
+    gameMode = 'Human vs Human';
     board = ['', '', '', '', '', '', '', '', ''];
     gameActive = true;
     statusText.textContent = `Player ${currentPlayer}'s turn`;
@@ -146,4 +167,5 @@ function restartGame() {
     });
 }
 
+function aiMove() {}
 
