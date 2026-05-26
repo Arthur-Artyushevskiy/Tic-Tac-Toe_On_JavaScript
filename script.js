@@ -1,7 +1,7 @@
 
 const cells = document.querySelectorAll('.cell');
 const statusText = document.getElementById('status');
-const restartBtn = document.getElementById('restart');
+const gameModes = document.querySelectorAll('.gameMode');
 const characterBtns = document.querySelectorAll('.character');
 
 let board = ['', '', '', '', '', '', '', '', ''];
@@ -9,7 +9,8 @@ let currentPlayer = 'X';
 let playerOneCharacter = 'X';
 let playerTwoCharacter = 'O';
 let gameActive = true;
-let customCharacterSelected = false;
+let isActive = false;
+let isSinglePlayer = false;
 
 
 const winConditions = [
@@ -28,7 +29,7 @@ initializeGame();
 function initializeGame() {
     statusText.textContent = `Player ${currentPlayer}'s turn`;
     cells.forEach(cell => cell.addEventListener('click', handleCellClick));
-    restartBtn.addEventListener('click', restartGame);
+    gameModes.forEach(gameMode => gameMode.addEventListener('click', selectGameMode));
     characterBtns.forEach(character => character.addEventListener('click', handleCharacterClick))
 }
 
@@ -36,28 +37,28 @@ function handleCharacterClick(event){
     const clickedCharacter = event.target;
     const characterIndex = clickedCharacter.getAttribute('data-index');
 
-    if(!customCharacterSelected){
+    if (!isActive) {
+        clickedCharacter.setAttribute('class', 'active-character');
+
         if(characterIndex === '0'){
             currentPlayer = 'O';
             playerOneCharacter = 'O';
             playerTwoCharacter = 'X';
-            customCharacterSelected = true;
         }
         else if(characterIndex === '1'){
             currentPlayer = 'T';
             playerOneCharacter = 'T';
             playerTwoCharacter = 'Y';
-            customCharacterSelected = true;
         }
         else if(characterIndex === '2'){
             currentPlayer = '🐱';
             playerOneCharacter = '🐱';
             playerTwoCharacter = '🐶';
-            customCharacterSelected = true;
         }
+
+        statusText.textContent = `Player ${currentPlayer}'s turn`;
+        isActive = true;
     }
-    
-    statusText.textContent = `Player ${currentPlayer}'s turn`;
 }
 
 function handleCellClick(event) {
@@ -69,12 +70,23 @@ function handleCellClick(event) {
         return;
     }
 
-
     updateCell(clickedCell, cellIndex);
-
     checkWinner();
+    if (isSinglePlayer) {
+        botTurn();
+        checkWinner();
+    }
 }
 
+function botTurn() {
+    for ( let i = 0; i < board.length; i++ ) {
+        if (board[i] === '') {
+            let selectedCell = cells[i];
+            updateCell(selectedCell, i);
+            break;
+        }
+    }
+}
 
 function updateCell(cell, index) {
     board[index] = currentPlayer;
@@ -126,16 +138,29 @@ function checkWinner() {
         return;
     }
 
-
     changePlayer(playerOneCharacter, playerTwoCharacter);
 }
 
 
-function restartGame() {
+function selectGameMode(event) {
+    const clickedGameMode = event.target;
+    const gameModeIndex = clickedGameMode.getAttribute('data-index');
+
+    if (gameModeIndex === '0') {
+        isSinglePlayer = true;
+    } else {
+        isSinglePlayer = false;
+    }
+
     currentPlayer = 'X';
     playerOneCharacter = 'X';
     playerTwoCharacter = 'O';
-    customCharacterSelected = false;
+    isActive = false;
+
+    characterBtns.forEach(characterButton => {
+        characterButton.setAttribute('class', 'character');
+    });
+
     board = ['', '', '', '', '', '', '', '', ''];
     gameActive = true;
     statusText.textContent = `Player ${currentPlayer}'s turn`;

@@ -21,6 +21,17 @@ h1 {
     color: #333;
 }
 
+.active-character {
+    background-color: green;
+    border-radius: 5px;
+    width: 80px;
+    height: 40px;
+    color: #f0f0f0;
+    font-display: flex;
+    font-size: 20px;
+    font-weight: bold;
+}
+
 #status {
     font-size: 1.5rem;
     font-weight: bold;
@@ -42,7 +53,6 @@ h1 {
     height: 40px;
     background-color: #007bff;
     color: #f0f0f0;
-    font-size: 1.1rem;
     font-display: flex;
     font-size: 20px;
     font-weight: bold;
@@ -80,7 +90,7 @@ h1 {
     background-color: #f0f0f0;
 }
 
-#restart {
+.gameMode {
     padding: 10px 20px;
     font-size: 1.1rem;
     background-color: #007bff;
@@ -91,6 +101,6 @@ h1 {
     transition: background-color 0.2s;
 }
 
-#restart:hover {
+.gameMode:hover {
     background-color: #0056b3;
 }
