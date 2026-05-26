@@ -31,6 +31,7 @@ function initializeGame() {
     cells.forEach(cell => cell.addEventListener('click', handleCellClick));
     gameModes.forEach(gameMode => gameMode.addEventListener('click', selectGameMode));
     characterBtns.forEach(character => character.addEventListener('click', handleCharacterClick))
+    gameModes[1].setAttribute('class', 'active-gameMode');
 }
 
 function handleCharacterClick(event){
@@ -148,8 +149,12 @@ function selectGameMode(event) {
 
     if (gameModeIndex === '0') {
         isSinglePlayer = true;
+        gameModes[0].setAttribute('class', 'active-gameMode');
+        gameModes[1].setAttribute('class', 'gameMode');
     } else {
         isSinglePlayer = false;
+        gameModes[1].setAttribute('class', 'active-gameMode');
+        gameModes[0].setAttribute('class', 'gameMode');
     }
 
     currentPlayer = 'X';
