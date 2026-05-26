@@ -73,7 +73,7 @@ function handleCellClick(event) {
 
     updateCell(clickedCell, cellIndex);
     checkWinner();
-    if (isSinglePlayer) {
+    if (isSinglePlayer && gameActive) {
         botTurn();
         checkWinner();
     }
